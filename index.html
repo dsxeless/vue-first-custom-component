@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Example</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        body {
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <app-button>Click me</app-button>
+    </div>   
+    
+    <script>
+        let app = {
+            components: {
+                'app-button': {
+                    template: `
+                        <button :disabled="processing" @click="handleClick">
+                            <slot />
+                        </button>
+                    `,
+                    data() {
+                        return {
+                            processing: false
+                        }
+                    },
+                    methods: {
+                        handleClick() {
+                            this.processing = true;
+                            setTimeout(() => {
+                                alert('The action completed');
+                                this.processing = false;
+                            }, 2000);
+                        }
+                    }
+                },
+            }
+        }
+        Vue.createApp(app).mount('#app');
+    </script>
+
+</body>
+</html>
